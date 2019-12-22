@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style>
@@ -14,7 +14,7 @@
     </style>
 </head>
 <body onload="startGame()">
-<p><button onkeydown="accelerate(-0.2)" onkeyup="accelerate(0.05)">ACCELERATE</button></p>
+<input type="number" pattern="[0-9]*" onkeydown="accelerate(-0.2)" onkeyup="accelerate(0.05)">
 <p>Use the ACCELERATE button to stay in the air</p>
 <p>How long can you stay alive?</p>
 <script>
