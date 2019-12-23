@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css" href="css.css">
 </head>
 <body>
-    <h1>MyGames<h1>
+<h1>MyGames</h1>
 <div id="field">
     <div class="brick"></div>
     <div class="brick"></div>
@@ -77,7 +77,7 @@
                 else if (Math.abs(dx) === 6) dx = (dx * 2 / 3) | 0;
             }
             if (by < 0) dy *= -1;
-            if (by >= 288 && !--lifes) clearInterval(cycle), location.reload();
+            if (by >= 288 && !--lifes) clearInterval(cycle), document.location.reload();
             if (by >= 288 && lifes) dy *= -1, lifesNode.innerHTML = lifes;
             if (by >= 18 && by <= 100 && fld[row * 10 + col].className !== 'removed') {
                 dy *= -1, fld[row * 10 + col].className = 'removed';
