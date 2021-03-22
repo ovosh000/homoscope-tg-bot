@@ -4,11 +4,8 @@ const cheerio = require("cheerio");
 const express = require('express');
 const path = require('path');
 const TOKEN = process.env.TELEGRAM_TOKEN || '//';
-const gameName = process.env.TELEGRAM_GAMENAME || 'pingponggame';
-let url = process.env.URL || '<http://localhost:8080>';
-const port = process.env.PORT || 8080;
 
-const token = '***REMOVED***';//токен
+const token = '//';//токен
 
 const bot = new TelegramBot(token, {polling: true});
 
@@ -38,102 +35,96 @@ setInterval(function () {
         }
     }
 }, 1000);
-bot.onText(/horoscope (.+)/, (msg, value) => {
-    let znak = value[1];
-    let userId = msg.from.id;
 
+var options = {
+    reply_markup: JSON.stringify({
+        inline_keyboard: [
+            [{ text: 'овен', callback_data: 'овен' }, { text: 'телец', callback_data: 'телец' }, { text: 'близнецы', callback_data: 'близнецы' }],
+            [{ text: 'рак', callback_data: 'рак' }, { text: 'лев', callback_data: 'лев' }, { text: 'дева', callback_data: 'дева' }],
+            [{ text: 'весы', callback_data: 'весы' }, { text: 'скорпион', callback_data: 'скорпион' }, { text: 'стрелец', callback_data: 'стрелец' }],
+            [{ text: 'козерог', callback_data: 'козерог' }, { text: 'воделей', callback_data: 'воделей' }, { text: 'рыбы', callback_data: 'рыбы' }]
+        ]
+    })
+};
+
+bot.onText(/horoscope(@.+){0,1}/, (msg) => {
+    bot.sendMessage(msg.chat.id, 'Выберите знак зодиака:', options);
+});
+
+bot.on('callback_query', (znak) => {
+    let chatId = znak.message.chat.id;
     function getHoroscope() {
         needle.get(url, function (err, res) {
-            if (err) throw(err);
+            if (err) throw (err);
             let $ = cheerio.load(res.body);
-            bot.sendMessage(userId, $(".text-link").text());
+            bot.sendMessage(chatId, znak+": " + $(".text-link").text());
         });
     }
-
-    switch (znak) {
+    function deleteMSG(){
+        bot.deleteMessage(znak.message.chat.id, znak.message.message_id);
+    };
+    switch (znak.data) {
         case 'овен':
             url = 'https://www.predskazanie.ru/daily_horoscope/?day=&s=1';
             getHoroscope();
+            deleteMSG();
             break;
         case 'телец':
             url = 'https://www.predskazanie.ru/daily_horoscope/?day=&s=2';
             getHoroscope();
+            deleteMSG();
             break;
         case 'близнецы':
             url = 'https://www.predskazanie.ru/daily_horoscope/?day=&s=3';
             getHoroscope();
+            deleteMSG();
             break;
         case 'рак':
             url = 'https://www.predskazanie.ru/daily_horoscope/?day=&s=4';
             getHoroscope();
+            deleteMSG();
             break;
         case 'лев':
             url = 'https://www.predskazanie.ru/daily_horoscope/?day=&s=5';
             getHoroscope();
+            deleteMSG();
             break;
         case 'дева':
             url = 'https://www.predskazanie.ru/daily_horoscope/?day=&s=6';
             getHoroscope();
+            deleteMSG();
             break;
         case 'весы':
             url = 'https://www.predskazanie.ru/daily_horoscope/?day=&s=7';
             getHoroscope();
+            deleteMSG();
             break;
         case 'скорпион':
             url = 'https://www.predskazanie.ru/daily_horoscope/?day=&s=8';
             getHoroscope();
+            deleteMSG();
             break;
         case 'стрелец':
             url = 'https://www.predskazanie.ru/daily_horoscope/?day=&s=9';
             getHoroscope();
+            deleteMSG();
             break;
         case 'козерог':
             url = 'https://www.predskazanie.ru/daily_horoscope/?day=&s=10';
             getHoroscope();
+            deleteMSG();
             break;
         case 'водолей':
             url = 'https://www.predskazanie.ru/daily_horoscope/?day=&s=11';
             getHoroscope();
+            deleteMSG();
             break;
         case 'рыбы':
             url = 'https://www.predskazanie.ru/daily_horoscope/?day=&s=12';
             getHoroscope();
+            deleteMSG();
             break;
         default:
             bot.sendMessage(userId, "Нет таких значений");
     }
-});
-
-const app = express();
-
-// Basic configurations
-app.set('view engine', 'ejs');
-
-// Tunnel to localhost.
-// This is just for demo purposes.
-// In your application, you will be using a static URL, probably that
-// you paid for. :)
-if (url === '0') {
-    const ngrok = require('ngrok');
-    ngrok.connect(port, function onConnect(error, u) {
-        if (error) throw error;
-        url = u;
-        console.log(`Game tunneled at ${url}`);
-    });
-}
-
-// ссылка на игру в сети интернет
-let url = 'http://siteWithGame.com'
-
-// название игры (то, что указывали в BotFather)
-const gameName = "pingponggame"
-
-// Matches /start
-bot.onText(/\/game/, function onPhotoText(msg) {
-    bot.sendGame(msg.chat.id, gameName);
-});
-
-// Handle callback queries
-bot.on('callback_query', function onCallbackQuery(callbackQuery) {
-    bot.answerCallbackQuery(callbackQuery.id, { url });
-});
+})
