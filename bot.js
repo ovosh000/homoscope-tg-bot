@@ -42,7 +42,7 @@ var options = {
             [{ text: 'овен', callback_data: 'овен' }, { text: 'телец', callback_data: 'телец' }, { text: 'близнецы', callback_data: 'близнецы' }],
             [{ text: 'рак', callback_data: 'рак' }, { text: 'лев', callback_data: 'лев' }, { text: 'дева', callback_data: 'дева' }],
             [{ text: 'весы', callback_data: 'весы' }, { text: 'скорпион', callback_data: 'скорпион' }, { text: 'стрелец', callback_data: 'стрелец' }],
-            [{ text: 'козерог', callback_data: 'козерог' }, { text: 'воделей', callback_data: 'водолей' }, { text: 'рыбы', callback_data: 'рыбы' }]
+            [{ text: 'козерог', callback_data: 'козерог' }, { text: 'водолей', callback_data: 'водолей' }, { text: 'рыбы', callback_data: 'рыбы' }]
         ]
     })
 };
