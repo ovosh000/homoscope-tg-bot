@@ -57,7 +57,7 @@ bot.on('callback_query', (znak) => {
         needle.get(url, function (err, res) {
             if (err) throw (err);
             let $ = cheerio.load(res.body);
-            bot.sendMessage(chatId, znak+": " + $(".text-link").text());
+            bot.sendMessage(chatId, znak.data.toUpperCase()+": " + $(".text-link").text());
         });
     }
     function deleteMSG(){
