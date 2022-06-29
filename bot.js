@@ -5,7 +5,7 @@ const express = require('express');
 const path = require('path');
 const TOKEN = process.env.TELEGRAM_TOKEN || '//';
 
-const token = '//';//токен
+const token = '';//токен
 
 const bot = new TelegramBot(token, {polling: true});
 
@@ -39,10 +39,10 @@ setInterval(function () {
 var options = {
     reply_markup: JSON.stringify({
         inline_keyboard: [
-            [{ text: 'овен', callback_data: 'овен' }, { text: 'телец', callback_data: 'телец' }, { text: 'близнецы', callback_data: 'близнецы' }],
-            [{ text: 'рак', callback_data: 'рак' }, { text: 'лев', callback_data: 'лев' }, { text: 'дева', callback_data: 'дева' }],
-            [{ text: 'весы', callback_data: 'весы' }, { text: 'скорпион', callback_data: 'скорпион' }, { text: 'стрелец', callback_data: 'стрелец' }],
-            [{ text: 'козерог', callback_data: 'козерог' }, { text: 'водолей', callback_data: 'водолей' }, { text: 'рыбы', callback_data: 'рыбы' }]
+            [{ text: '♈овен', callback_data: 'овен' }, { text: '♉телец', callback_data: 'телец' }, { text: '♊близнецы', callback_data: 'близнецы' }],
+            [{ text: '♋рак', callback_data: 'рак' }, { text: '♌лев', callback_data: 'лев' }, { text: '♍дева', callback_data: 'дева' }],
+            [{ text: '♎весы', callback_data: 'весы' }, { text: '♏скорпион', callback_data: 'скорпион' }, { text: '♐стрелец', callback_data: 'стрелец' }],
+            [{ text: '♑козерог', callback_data: 'козерог' }, { text: '♒воделей', callback_data: 'водолей' }, { text: '♓рыбы', callback_data: 'рыбы' }]
         ]
     })
 };
@@ -57,7 +57,7 @@ bot.on('callback_query', (znak) => {
         needle.get(url, function (err, res) {
             if (err) throw (err);
             let $ = cheerio.load(res.body);
-            bot.sendMessage(chatId, znak.data.toUpperCase()+": " + $(".text-link").text());
+            bot.sendMessage(chatId, znak.data.toUpperCase()+" : "+ $(".text-link").text());
         });
     }
     function deleteMSG(){
