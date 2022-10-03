@@ -51,13 +51,24 @@ bot.onText(/horoscope(@.+){0,1}/, (msg) => {
     bot.sendMessage(msg.chat.id, 'Выберите знак зодиака:', options);
 });
 
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //min in, max not in
+}
+
 bot.on('callback_query', (znak) => {
     let chatId = znak.message.chat.id;
     function getHoroscope() {
         needle.get(url, function (err, res) {
             if (err) throw (err);
             let $ = cheerio.load(res.body);
-            bot.sendMessage(chatId, znak.data.toUpperCase()+" : "+ $(".text-link").text());
+            if(getRandomInt(0,30)===5){
+                ads = "...а еще ты зайкуа 💫💫💫"
+                bot.sendMessage(chatId, znak.data.toUpperCase()+" : "+ $(".text-link").text() + "\n" + ads);
+            } else {
+                bot.sendMessage(chatId, znak.data.toUpperCase()+" : "+ $(".text-link").text());
+            }
         });
     }
     function deleteMSG(){
